@@ -8,6 +8,7 @@ from Bio import Entrez
  #"marry.jlal@gmail.com"
 Entrez.email = "marry.jlal@gmail.com"
 
+
 def get_references(pmid):
     results = Entrez.read(Entrez.elink(dbfrom="pubmed",
                                    db="pmc",
@@ -21,24 +22,32 @@ def get_references(pmid):
 def store_articles(pmid):
     handle = Entrez.efetch(db="pmc", id=pmid, rettype="XML", retmode="text",
                            api_key='b9a1374fd8c234506e141a74db4b7eb28e08')
-    with open(f'output/{pmid}.xml', 'wb') as file:
+    directory = Path(__file__).parent.absolute()
+    output = directory / 'output'
+    if not(output.exists()):
+        output.mkdir(parents=True, exist_ok=False)
+    #else:
+    #    print('directory already exists doing nothing')
+    with open(f'{output}/{pmid}.xml', 'wb') as file:
         file.write(handle.read())
 
 
 
 if __name__ == "__main__":
-    #catch inpput
+    #catch input
     argparser = ap.ArgumentParser(description="Script that downloads (default) 10 articles referenced by the given PubMed ID concurrently.")
     argparser.add_argument("-n", action="store",
                            dest="n", required=False, type=int,
                            help="Number of references to download concurrently.")
-    argparser.add_argument("-pubmed_id", action="store", type=str, nargs=1, help="Pubmed ID of the article to harvest for references to download.")
+    argparser.add_argument("pubmed_id", action="store", type=str, nargs=1, help="Pubmed ID of the article to harvest for references to download.")
     args = argparser.parse_args()
     print("Getting: ", args.pubmed_id)
 
     pmid = str(args.pubmed_id)
-    # pmid = "33669327"
+    
     refs = get_references(pmid)
+    print(refs)
+
 
     #multiprocessing
     cpus = mp.cpu_count()
