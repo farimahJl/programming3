@@ -1,0 +1,17 @@
+ ************* Module assignment1
+ assignment1.py:27: convention (C0325, superfluous-parens, ) Unnecessary parens after 'not' keyword
+ assignment1.py:38: convention (C0301, line-too-long, ) Line too long (140/100)
+ assignment1.py:42: convention (C0301, line-too-long, ) Line too long (146/100)
+ assignment1.py:47: convention (C0303, trailing-whitespace, ) Trailing whitespace
+ assignment1.py:55: convention (C0304, missing-final-newline, ) Final newline missing
+ assignment1.py:1: convention (C0114, missing-module-docstring, ) Missing module docstring
+ assignment1.py:12: convention (C0116, missing-function-docstring, get_references) Missing function or method docstring
+ assignment1.py:12: warning (W0621, redefined-outer-name, get_references) Redefining name 'pmid' from outer scope (line 46)
+ assignment1.py:13: warning (W0621, redefined-outer-name, get_references) Redefining name 'results' from outer scope (line 55)
+ assignment1.py:22: convention (C0116, missing-function-docstring, store_articles) Missing function or method docstring
+ assignment1.py:22: warning (W0621, redefined-outer-name, store_articles) Redefining name 'pmid' from outer scope (line 46)
+ 
+ ------------------------------------------------------------------
+ Your code has been rated at 6.21/10 (previous run: 4.52/10, +1.69)
+ 
+ 
