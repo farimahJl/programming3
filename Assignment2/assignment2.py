@@ -111,10 +111,10 @@ def store_articles(pmid):
 
 def get_autor(pmid):
         store_articles(pmid)
-        Entrez.email = 'marry.jlal@gmail.com'
-        handle = Entrez.esummary(db="pubmed", id=pmid)
-        record = Entrez.read(handle)
         try:
+            Entrez.email = 'marry.jlal@gmail.com'
+            handle = Entrez.esummary(db="pubmed", id=pmid)
+            record = Entrez.read(handle)
             info =tuple(record[0]['AuthorList'])
         except RuntimeError:
             author_tup = (None)
