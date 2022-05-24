@@ -96,9 +96,21 @@ def get_references(pmid):
                                    api_key='b9a1374fd8c234506e141a74db4b7eb28e08'))
     references = [f'{link["Id"]}' for link in results[0]["LinkSetDb"][0]["Link"]]
     return references
-#2.) replace capitalize by the function which downloads the author list 
+
+def store_articles(pmid):
+    handle = Entrez.efetch(db="pmc", id=pmid, rettype="XML", retmode="text",
+                           api_key='b9a1374fd8c234506e141a74db4b7eb28e08')
+    directory = Path(__file__).parent.absolute()
+    output = directory / 'output'
+    if not(output.exists()):
+        output.mkdir(parents=True, exist_ok=False)
+    #else:
+    #    print('directory already exists doing nothing')
+    with open(f'{output}/{pmid}.xml', 'wb') as file:
+        file.write(handle.read())
 
 def get_autor(pmid):
+        store_articles(pmid)
         Entrez.email = 'marry.jlal@gmail.com'
         handle = Entrez.esummary(db="pubmed", id=pmid)
         record = Entrez.read(handle)
