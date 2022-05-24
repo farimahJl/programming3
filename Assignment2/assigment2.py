@@ -1,6 +1,7 @@
 import multiprocessing as mp
 from multiprocessing.managers import BaseManager, SyncManager
 import os, sys, time, queue
+import argparse as ap
 from Bio import Entrez
 import pickle
 from pathlib import Path
@@ -87,6 +88,7 @@ def make_client_manager(ip, port, authkey):
 # 0.) add the function to create outout folder
 #1.) download the references for given pubmed id (first function from first assignment)
 def get_references(pmid):
+    Entrez.email = 'marry.jalal@gmail.com'
     results = Entrez.read(Entrez.elink(dbfrom="pubmed",
                                    db="pmc",
                                    LinkName="pubmed_pmc_refs",
@@ -97,12 +99,20 @@ def get_references(pmid):
 #2.) replace capitalize by the function which downloads the author list 
 
 def get_autor(pmid):
-         handle = Entrez.esummary(db="pubmed", id=pmid)
-         record = Entrez.read(handle)
-         info =tuple(record[0]['AuthorList'])
-         path = Path(__file__).parent.absolute()
-         output_path = path/'output'
-         with open(f'{output_path}/{pmid}.authors.pickle', 'wb') as handle:
+        Entrez.email = 'marry.jlal@gmail.com'
+        handle = Entrez.esummary(db="pubmed", id=pmid)
+        record = Entrez.read(handle)
+        try:
+            info =tuple(record[0]['AuthorList'])
+        except RuntimeError:
+            author_tup = (None)
+        path = Path(__file__).parent.absolute()
+        output_path = path/'output'
+        try:
+            output_path.mkdir(parents=True, exist_ok=False)
+        except FileExistsError:
+            ('Output folder already exists')
+        with open(f'{output_path}/{pmid}.authors.pickle', 'wb') as handle:
             pickle.dump(info, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 def runclient(num_processes):
